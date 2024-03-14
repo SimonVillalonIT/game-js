@@ -7,14 +7,18 @@
     <link href="./src/styles/main.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + TS Game</title>
+    <script type="module" src="/src/scripts/main.ts" defer></script>
 </head>
 
 <body class="m-0 p-0 box-border">
     <main id="app" class="flex flex-col justify-center items-center">
         <canvas id="canvas"
             class="border-4 border-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full"></canvas>
-        <div id="player" class="hidden"></div>
-        <script type="module" src="/src/scripts/background.ts"></script>
+        <img id="player" src="public/character.png" class="hidden"></img>
+        <img class="hidden" src="public/backgrounds/neo/road&lamps.png" alt="" id="layer1">
+        <img class="hidden" src="public/backgrounds/neo/houded2.png" alt="" id="layer2">
+        <img class="hidden" src="public/backgrounds/neo/sky.png" alt="" id="layer3">
+        <img class="hidden" src="public/backgrounds/neo/back.png" alt="" id="layer4">
     </main>
 </body>
 
