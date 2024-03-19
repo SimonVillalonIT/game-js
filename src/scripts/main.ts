@@ -8,10 +8,18 @@ canvas.height = 1080
 preloadImages();
 const game = new Game(canvas.width, canvas.height)
 
+let lastTime = performance.now()
+
 function animate() {
+    const currentTime = performance.now()
+    const deltaTime = currentTime - lastTime
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    game.update()
+    game.update(deltaTime)
     game.draw(ctx)
+
+
+    lastTime = currentTime
+
     requestAnimationFrame(animate)
 }
 animate()

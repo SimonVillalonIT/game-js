@@ -17,9 +17,9 @@ export class Game {
         this.player = new Player(this)
         this.input = new InputHandler()
     }
-    update() {
+    update(deltaTime: number) {
         this.background.update()
-        this.player.update(this.input.keys)
+        this.player.update(this.input.keys, deltaTime)
     }
     draw(context: CanvasRenderingContext2D) {
         this.background.draw(context)
