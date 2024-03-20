@@ -41,6 +41,7 @@ export default class Player {
     }
 
     updateCooldowns(deltaTime: number) {
+        console.log(this.attackCooldown)
         if (this.attackCooldown > 0) {
             this.attackCooldown -= deltaTime;
         }

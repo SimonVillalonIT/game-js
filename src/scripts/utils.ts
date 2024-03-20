@@ -1,7 +1,5 @@
-import { SPRITE_URLS } from "./constants.ts"
-
-export async function preloadImages(): Promise<void> {
-    const urlsArrays = Object.values(SPRITE_URLS)
+export async function preloadImages(obj: { [key: string]: string[] }): Promise<void> {
+    const urlsArrays = Object.values(obj)
     urlsArrays.forEach(urls => {
         const loadImagePromises = urls.map(url => {
             return new Promise<void>((resolve, reject) => {

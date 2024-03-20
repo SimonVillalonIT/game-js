@@ -1,8 +1,19 @@
 export const SPRITE_URLS = {
-    walk: ["../../public/walk/1.png", "../../public/walk/2.png", "../../public/walk/3.png", "../../public/walk/4.png", "../../public/walk/5.png", "../../public/walk/6.png"],
-    run: ["../../public/run/1.png", "../../public/run/2.png", "../../public/run/3.png", "../../public/run/4.png", "../../public/run/5.png", "../../public/run/6.png", "../../public/run/7.png", "../../public/run/8.png"],
-    idle: ["../../public/idle/1.png", "../../public/idle/2.png", "../../public/idle/3.png", "../../public/idle/4.png", "../../public/idle/5.png", "../../public/idle/6.png"],
-    jump: ["../../public/jump/1.png", "../../public/jump/2.png", "../../public/jump/3.png", "../../public/jump/4.png", "../../public/jump/5.png", "../../public/jump/6.png", "../../public/jump/7.png", "../../public/jump/8.png"],
-    attack: ["../../public/attack/1.png", "../../public/attack/2.png", "../../public/attack/3.png", "../../public/attack/4.png"],
-    attack2: ["../../public/attack2/1.png", "../../public/attack2/2.png", "../../public/attack2/3.png"],
+    walk: ["/walk/1.png", "/walk/2.png", "/walk/3.png", "/walk/4.png", "/walk/5.png", "/walk/6.png"],
+    run: ["/run/1.png", "/run/2.png", "/run/3.png", "/run/4.png", "/run/5.png", "/run/6.png", "/run/7.png", "/run/8.png"],
+    idle: ["/idle/1.png", "/idle/2.png", "/idle/3.png", "/idle/4.png", "/idle/5.png", "/idle/6.png"],
+    jump: ["/jump/1.png", "/jump/2.png", "/jump/3.png", "/jump/4.png", "/jump/5.png", "/jump/6.png", "/jump/7.png", "/jump/8.png"],
+    attack: ["/attack/1.png", "/attack/2.png", "/attack/3.png", "/attack/4.png"],
+    attack2: ["/attack2/1.png", "/attack2/2.png", "/attack2/3.png"],
+}
+
+export const GROUND_ENEMY_URLS = {
+    idle: ["/GroundEnemy/idle/1.png", "/GroundEnemy/idle/2.png", "/GroundEnemy/idle/3.png", "/GroundEnemy/idle/5.png", "/GroundEnemy/idle/6.png", "/GroundEnemy/idle/7.png", "/GroundEnemy/idle/8.png"],
+    dead: ["/GroundEnemy/dead/1.png", "/GroundEnemy/dead/2.png", "/GroundEnemy/dead/3.png", "/GroundEnemy/dead/4.png", "/GroundEnemy/dead/5.png"]
+}
+
+
+export const FLYING_ENEMIES_URLS = {
+    idle: ["/GroundEnemy/idle/1.png", "/GroundEnemy/idle/2.png"],
+    dead: ["/GroundEnemy/dead/1.png", "/GroundEnemy/dead/2.png", "/GroundEnemy/dead/3.png", "/GroundEnemy/dead/4.png"]
 }
