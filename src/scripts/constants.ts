@@ -14,6 +14,6 @@ export const GROUND_ENEMY_URLS = {
 
 
 export const FLYING_ENEMIES_URLS = {
-    idle: ["/GroundEnemy/idle/1.png", "/GroundEnemy/idle/2.png"],
-    dead: ["/GroundEnemy/dead/1.png", "/GroundEnemy/dead/2.png", "/GroundEnemy/dead/3.png", "/GroundEnemy/dead/4.png"]
+    idle: ["/FlyingEnemy/idle/1.png", "/FlyingEnemy/idle/2.png", "/FlyingEnemy/idle/3.png", "/FlyingEnemy/idle/5.png", "/FlyingEnemy/idle/6.png", "/FlyingEnemy/idle/7.png"],
+    dead: ["/FlyingEnemy/dead/1.png", "/FlyingEnemy/dead/2.png", "/FlyingEnemy/dead/3.png", "/FlyingEnemy/dead/4.png"]
 }

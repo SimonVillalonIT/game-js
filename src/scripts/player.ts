@@ -18,7 +18,6 @@ export default class Player {
     weight: number
     currentState: State
     stateMap: StateObject
-    attackCooldown: number
 
     constructor(game: Game) {
         this.game = game
@@ -34,40 +33,18 @@ export default class Player {
         this.animationSpeed = 0.07
         this.speed = 0
         this.maxSpeed = 7
-        this.attackCooldown = 0
         this.stateMap = { walk: new Walk(this), run: new Run(this), idle: new Idle(this), jump: new Jump(this), attack: new Attack(this), jumpAttack: new JumpAttack(this) }
         this.currentState = this.stateMap.walk
         this.currentState.enter()
     }
 
-    updateCooldowns(deltaTime: number) {
-        console.log(this.attackCooldown)
-        if (this.attackCooldown > 0) {
-            this.attackCooldown -= deltaTime;
-        }
-    }
-
-    canAttack() {
-        return this.attackCooldown <= 0
-    }
-
     changeState(newState: State) {
-        if (newState instanceof Attack && this.canAttack()) {
-            this.attackCooldown = 1000; // 1000 milliseconds = 1 second
-            this.currentState = newState;
-            this.currentState.enter();
-        } else if (newState instanceof JumpAttack && this.canAttack()) {
-            this.attackCooldown = 1000; // 1000 milliseconds = 1 second
-            this.currentState = newState;
-            this.currentState.enter();
-        }
-        else if (newState instanceof JumpAttack === false && newState instanceof Attack === false) {
-            this.currentState = newState
-            this.currentState.enter()
-        }
+        this.currentState = newState
+        this.currentState.enter()
     }
 
-    update(input: InputType[], deltaTime: number) {
+    update(input: InputType[]) {
+        this.checkCollisions()
         this.currentFrameIndex = (this.currentFrameIndex + this.animationSpeed) % this.spriteImages.length;
         this.currentState.update()
 
@@ -117,11 +94,11 @@ export default class Player {
         if (this.x > this.game.width - this.width) {
             this.x = this.game.width - this.width;
         }
-        this.updateCooldowns(deltaTime)
     }
 
     draw(context: CanvasRenderingContext2D) {
         // Draw the current sprite image
+        if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
         let currentImage = this.spriteImages[Math.floor(this.currentFrameIndex)] ?? this.spriteImages[0]
         context.drawImage(
             currentImage,
@@ -134,6 +111,23 @@ export default class Player {
 
     onGround() {
         return this.y >= this.game.height - this.height - 70;
+    }
+    checkCollisions() {
+        this.game.enemies.forEach(enemy => {
+            if (enemy.x < this.x + this.width &&
+                enemy.x + this.width > this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.y + enemy.height > this.y
+            ) {
+                if (this.currentState instanceof Attack || this.currentState instanceof JumpAttack) {
+                    enemy.markedForDeletetion = true
+                    this.game.score++
+
+                } else {
+                    console.log("Lose")
+                }
+            }
+        })
     }
 }
 

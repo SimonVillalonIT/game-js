@@ -1,19 +1,20 @@
 import { InputType } from "../types/globals";
+import { Game } from "./game";
 
 class InputHandler {
     keys: InputType[];
     spaceKeyDown: boolean;
-
-    constructor() {
+    game: Game
+    constructor(game: Game) {
         this.keys = [];
         this.spaceKeyDown = false;
+        this.game = game
 
         window.addEventListener("keydown", (e: KeyboardEvent) => {
             console.log({ spaceKeyDown: this.spaceKeyDown })
             if (e.key === " " && !this.spaceKeyDown) {
                 this.spaceKeyDown = true;
                 this.keys.push(e.key);
-
                 // Set a timeout to remove the space key after 1 second
                 setTimeout(() => {
                     const index = this.keys.indexOf(" ");
@@ -29,7 +30,7 @@ class InputHandler {
                 !this.keys.includes(e.key)
             ) {
                 this.keys.push(e.key);
-            }
+            } else if (e.key === "d") this.game.debug = !this.game.debug
         });
 
         window.addEventListener("keyup", (e: KeyboardEvent) => {
