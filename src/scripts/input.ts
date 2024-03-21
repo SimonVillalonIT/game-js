@@ -11,7 +11,6 @@ class InputHandler {
         this.game = game
 
         window.addEventListener("keydown", (e: KeyboardEvent) => {
-            console.log({ spaceKeyDown: this.spaceKeyDown })
             if (e.key === " " && !this.spaceKeyDown) {
                 this.spaceKeyDown = true;
                 this.keys.push(e.key);
@@ -34,7 +33,6 @@ class InputHandler {
         });
 
         window.addEventListener("keyup", (e: KeyboardEvent) => {
-            console.log({ spaceKeyDown: this.spaceKeyDown })
             if (e.key === " ") this.spaceKeyDown = false
             const index = this.keys.indexOf((e.key as InputType));
             if (index !== -1) {

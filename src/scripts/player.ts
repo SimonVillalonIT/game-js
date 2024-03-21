@@ -1,6 +1,8 @@
 import { InputType, StateObject } from "../types/globals"
 import { Game } from "./game"
 import { Attack, Idle, Jump, JumpAttack, Run, State, Walk } from "./playerStates"
+import { Sword } from "./sword"
+import { movementLogic, playerCollisions, swordCollisions } from "./utils"
 
 export default class Player {
     game: Game
@@ -18,7 +20,7 @@ export default class Player {
     weight: number
     currentState: State
     stateMap: StateObject
-
+    sword: Sword
     constructor(game: Game) {
         this.game = game
         this.width = 200
@@ -36,6 +38,7 @@ export default class Player {
         this.stateMap = { walk: new Walk(this), run: new Run(this), idle: new Idle(this), jump: new Jump(this), attack: new Attack(this), jumpAttack: new JumpAttack(this) }
         this.currentState = this.stateMap.walk
         this.currentState.enter()
+        this.sword = new Sword(this)
     }
 
     changeState(newState: State) {
@@ -45,47 +48,10 @@ export default class Player {
 
     update(input: InputType[]) {
         this.checkCollisions()
+        this.sword.update()
         this.currentFrameIndex = (this.currentFrameIndex + this.animationSpeed) % this.spriteImages.length;
         this.currentState.update()
-
-        // Lógica de movimiento
-        if (this.onGround()) {
-            this.x += this.speed;
-            if (input.includes(" ")) {
-                this.changeState(this.stateMap.attack)
-            }
-            else if (input.includes("ArrowUp") && this.onGround()) {
-                this.changeState(this.stateMap.jump)
-            }
-            else if (input.includes("ArrowRight")) {
-                this.changeState(this.stateMap.run)
-            } else if (input.includes("ArrowLeft")) {
-                this.changeState(this.stateMap.idle)
-            }
-
-            else if (input.length === 0 && this.currentState instanceof Walk !== true) {
-                this.changeState(this.stateMap.walk)
-            }
-        }
-        else {
-            // Apply horizontal movement even when jumping
-            if (input.includes(" ")) {
-                this.changeState(this.stateMap.jumpAttack)
-            }
-            if (input.includes("ArrowRight")) {
-                this.x += this.maxSpeed;
-            } else if (input.includes("ArrowLeft")) {
-                this.x -= this.maxSpeed;
-            }
-
-            // Check if ArrowDown key is pressed to adjust weight
-            if (input.includes("ArrowDown")) {
-                this.weight *= 1.1;
-            } else {
-                // Restore weight to normal if ArrowDown is not pressed
-                this.weight = 1;
-            }
-        }
+        movementLogic(this, input)
 
         //Ensure player is within the map
         if (this.x < 0) {
@@ -107,6 +73,9 @@ export default class Player {
             this.width,
             this.height
         );
+        if (this.currentState instanceof Attack || this.currentState instanceof JumpAttack) {
+            this.sword.draw(context)
+        }
     }
 
     onGround() {
@@ -114,18 +83,12 @@ export default class Player {
     }
     checkCollisions() {
         this.game.enemies.forEach(enemy => {
-            if (enemy.x < this.x + this.width &&
-                enemy.x + this.width > this.x &&
-                enemy.y < this.y + this.height &&
-                enemy.y + enemy.height > this.y
-            ) {
-                if (this.currentState instanceof Attack || this.currentState instanceof JumpAttack) {
-                    enemy.markedForDeletetion = true
-                    this.game.score++
-
-                } else {
-                    console.log("Lose")
-                }
+            if (playerCollisions(this, enemy)) {
+                console.log("dead")
+            }
+            if (swordCollisions(this.sword, enemy) && (this.currentState instanceof JumpAttack || this.currentState instanceof Attack)) {
+                enemy.markedForDeletetion = true
+                this.game.score++
             }
         })
     }

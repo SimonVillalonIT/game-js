@@ -4,19 +4,25 @@ import { loadStateImages } from "./utils"
 
 
 
-export class State {
+export abstract class State {
     player: Player
+    sound: HTMLAudioElement
     constructor(player: Player) {
         this.player = player
+        this.sound = new Audio()
+        this.sound.src = "/attack.wav"
     }
-
-    enter() { }
-    update() {
+    abstract enter(): void
+    abstract update(): void
+    hasTraversedAllSprites(): boolean {
+        return Math.floor(this.player.currentFrameIndex) >= this.player.spriteImages.length - 1;
     }
 }
 
 export class Walk extends State {
     enter() {
+        this.sound.loop = false
+        this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
         this.player.spriteImages = SPRITE_URLS.walk.map(loadStateImages)
@@ -28,6 +34,8 @@ export class Walk extends State {
 
 export class Run extends State {
     enter() {
+        this.sound.loop = false
+        this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
         this.player.spriteImages = SPRITE_URLS.run.map(loadStateImages)
@@ -39,6 +47,8 @@ export class Run extends State {
 
 export class Idle extends State {
     enter() {
+        this.sound.loop = false
+        this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
         this.player.spriteImages = SPRITE_URLS.idle.map(loadStateImages)
@@ -50,6 +60,8 @@ export class Idle extends State {
 
 export class Jump extends State {
     enter() {
+        this.sound.loop = false
+        this.sound.pause()
         this.player.animationSpeed = 0.1
         this.player.width = 200
         this.player.spriteImages = SPRITE_URLS.jump.map(loadStateImages)
@@ -73,6 +85,8 @@ export class Jump extends State {
 
 export class Attack extends State {
     enter() {
+        this.sound.loop = false
+        this.sound.play()
         this.player.animationSpeed = 0.15
         this.player.width = 300
         this.player.spriteImages = SPRITE_URLS.attack2.map(loadStateImages)
@@ -88,6 +102,8 @@ export class JumpAttack extends State {
         this.player.spriteImages = SPRITE_URLS.attack.map(loadStateImages)
     }
     update() {
+
+        this.sound.play()
         // Apply gravity
         this.player.vy += this.player.weight;
 
