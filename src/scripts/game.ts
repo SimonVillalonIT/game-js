@@ -18,6 +18,7 @@ export class Game {
     score: number
     UI: UI
     music: HTMLAudioElement
+    stop: boolean
     constructor(width: number, height: number) {
         this.width = width
         this.height = height
@@ -33,10 +34,12 @@ export class Game {
         this.UI = new UI(this)
         this.music = new Audio()
         this.music.src = "/music.wav"
-        this.music.volume = 0.2
+        this.music.volume = 0.1
         this.music.loop = true
+        this.stop = false
     }
     update(deltaTime: number) {
+        this.UI.update()
         this.background.update()
         this.player.update(this.input.keys)
         //handle enemies
@@ -48,11 +51,13 @@ export class Game {
         }
         this.enemies.forEach(enemy => {
             enemy.update()
-            if (enemy.markedForDeletetion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
+            if (enemy.markedForDeletetion) {
+                this.enemies.splice(this.enemies.indexOf(enemy), 1)
+            }
         })
     }
     draw(context: CanvasRenderingContext2D) {
-
+        this.playMusic()
         this.background.draw(context)
         this.player.draw(context)
         this.enemies.forEach(enemy => {
@@ -66,6 +71,9 @@ export class Game {
     }
     playMusic() {
         this.music.play()
+    }
+    stopAll() {
+        this.enemies.forEach(enemy => { enemy.stop = true })
     }
 }
 

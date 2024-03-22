@@ -7,10 +7,13 @@ import { loadStateImages } from "./utils"
 export abstract class State {
     player: Player
     sound: HTMLAudioElement
+    deathSound: HTMLAudioElement
     constructor(player: Player) {
         this.player = player
         this.sound = new Audio()
         this.sound.src = "/attack.wav"
+        this.deathSound = new Audio()
+        this.deathSound.src = "/death-sound.wav"
     }
     abstract enter(): void
     abstract update(): void
@@ -116,5 +119,26 @@ export class JumpAttack extends State {
             this.player.vy = 0; // Reset vertical velocity
             this.player.changeState(this.player.stateMap.walk)
         }
+    }
+}
+
+export class Dead extends State {
+    enter() {
+        this.player.game.music.volume = 0
+        this.deathSound.play()
+        this.player.spriteImages = SPRITE_URLS.dead.map(loadStateImages)
+        this.player.animationSpeed = 0.02
+    }
+    update() {
+        if (!this.player.onGround()) {
+            this.player.vy += this.player.weight;
+            this.player.y += this.player.vy;
+        }
+        this.player.speed = 0
+        this.player.game.speed = 0
+        this.player.game.stopAll()
+        setTimeout(() => {
+            this.player.game.stop = true
+        }, 2000)
     }
 }

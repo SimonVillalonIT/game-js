@@ -1,6 +1,6 @@
 import { State } from "../scripts/playerStates.ts"
 
-type StateType = "walk" | "run" | "jump" | "idle" | "attack" | "jumpAttack"
+type StateType = "walk" | "run" | "jump" | "idle" | "attack" | "jumpAttack" | "dead"
 
 type InputType = "ArrowDown" | "ArrowUp" | "ArrowLeft" | "ArrowRight" | " "
 

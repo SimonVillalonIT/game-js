@@ -5,6 +5,7 @@ export const SPRITE_URLS = {
     jump: ["/jump/1.png", "/jump/2.png", "/jump/3.png", "/jump/4.png", "/jump/5.png", "/jump/6.png", "/jump/7.png", "/jump/8.png"],
     attack: ["/attack/1.png", "/attack/2.png", "/attack/3.png", "/attack/4.png"],
     attack2: ["/attack2/1.png", "/attack2/2.png", "/attack2/3.png"],
+    dead: ["/dead/1.png", "/dead/2.png", "/dead/3.png"],
 }
 
 export const GROUND_ENEMY_URLS = {
@@ -17,3 +18,5 @@ export const FLYING_ENEMIES_URLS = {
     idle: ["/FlyingEnemy/idle/1.png", "/FlyingEnemy/idle/2.png", "/FlyingEnemy/idle/3.png", "/FlyingEnemy/idle/5.png", "/FlyingEnemy/idle/6.png", "/FlyingEnemy/idle/7.png"],
     dead: ["/FlyingEnemy/dead/1.png", "/FlyingEnemy/dead/2.png", "/FlyingEnemy/dead/3.png", "/FlyingEnemy/dead/4.png"]
 }
+
+export const HEART_URLS = ["/heart/1.png", "/heart/2.png", "/heart/3.png", "/heart/5.png"]

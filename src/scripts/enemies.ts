@@ -14,6 +14,9 @@ class Enemy {
     width: number
     height: number
     markedForDeletetion: boolean
+    stop: boolean
+    isDead: boolean
+    hitSound: HTMLAudioElement
     constructor(game: Game) {
         this.currentFrameIndex = 0
         this.animationSpeed = 0
@@ -25,13 +28,26 @@ class Enemy {
         this.width = 0
         this.height = 0
         this.game = game
+        this.isDead = false
         this.markedForDeletetion = false
+        this.stop = false
+        this.hitSound = new Audio()
+        this.hitSound.src = "/hit.wav"
     }
     update() {
-        this.x -= this.speedX + this.game.speed
-        this.y += this.speedY
-        this.currentFrameIndex = (this.currentFrameIndex + this.animationSpeed) % this.spriteImages.length;
-        if (this.x + this.width < 0) this.markedForDeletetion = true
+        if (this.isDead) {
+            this.hitSound.play()
+            setTimeout(() => {
+                this.markedForDeletetion = true
+            }, 500)
+        }
+        if (!this.stop) {
+            this.x -= this.speedX + this.game.speed
+            this.y += this.speedY
+            this.currentFrameIndex = (this.currentFrameIndex + this.animationSpeed) % this.spriteImages.length;
+            if (this.markedForDeletetion) this.speedX = 0; this.speedY = 0
+            if (this.x + this.width < 0) this.markedForDeletetion = true
+        }
     }
     draw(context: CanvasRenderingContext2D) {
         // Draw the current sprite image
@@ -63,23 +79,23 @@ export class FlyingEnemy extends Enemy {
         this.angle = 0
         this.va = Math.random() * 0.1 + 0.1
 
-        // Load sprite images for ground enemies
-        this.spriteImages = FLYING_ENEMIES_URLS.idle.map(loadStateImages);
     }
     update() {
-        super.update()
-        this.angle += this.va * 0.4
-        this.y += Math.sin(this.angle) * 3
+        // Load sprite images for ground enemies
+        this.spriteImages = !this.isDead ? FLYING_ENEMIES_URLS.idle.map(loadStateImages) : FLYING_ENEMIES_URLS.dead.map(loadStateImages)
+        if (!this.stop) {
+            super.update()
+            this.angle += this.va * 0.4
+            this.y += Math.sin(this.angle) * 3
+        }
     }
 
 }
 
 export class GroundEnemy extends Enemy {
     constructor(game: Game) {
-        // Call the superclass constructor
         super(game);
 
-        // Set initial position and speed for ground enemies
         this.animationSpeed = 0.09
         this.width = 150
         this.height = 120
@@ -88,13 +104,10 @@ export class GroundEnemy extends Enemy {
         this.speedX = Math.random() + 5
         this.speedY = 0;
 
-        // Load sprite images for ground enemies
-        this.spriteImages = GROUND_ENEMY_URLS.idle.map(loadStateImages);
     }
 
-    // Optionally, you can override the update method if needed
     update() {
-        super.update(); // Call superclass update method if necessary
-        // Additional update logic specific to ground enemies can be added here
+        this.spriteImages = !this.isDead ? GROUND_ENEMY_URLS.idle.map(loadStateImages) : GROUND_ENEMY_URLS.dead.map(loadStateImages)
+        super.update();
     }
 }

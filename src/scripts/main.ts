@@ -18,9 +18,10 @@ function animate() {
     const currentTime = performance.now()
     const deltaTime = currentTime - lastTime
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    game.update(deltaTime)
+    if (!game.stop) {
+        game.update(deltaTime)
+    }
     game.draw(ctx)
-    //game.playMusic()
     lastTime = currentTime
 
     requestAnimationFrame(animate)

@@ -1,6 +1,6 @@
 import { InputType, StateObject } from "../types/globals"
 import { Game } from "./game"
-import { Attack, Idle, Jump, JumpAttack, Run, State, Walk } from "./playerStates"
+import { Attack, Dead, Idle, Jump, JumpAttack, Run, State, Walk } from "./playerStates"
 import { Sword } from "./sword"
 import { movementLogic, playerCollisions, swordCollisions } from "./utils"
 
@@ -21,6 +21,8 @@ export default class Player {
     currentState: State
     stateMap: StateObject
     sword: Sword
+    lives: number
+    isHit: boolean
     constructor(game: Game) {
         this.game = game
         this.width = 200
@@ -35,15 +37,20 @@ export default class Player {
         this.animationSpeed = 0.07
         this.speed = 0
         this.maxSpeed = 7
-        this.stateMap = { walk: new Walk(this), run: new Run(this), idle: new Idle(this), jump: new Jump(this), attack: new Attack(this), jumpAttack: new JumpAttack(this) }
+        this.stateMap = { walk: new Walk(this), run: new Run(this), idle: new Idle(this), jump: new Jump(this), attack: new Attack(this), jumpAttack: new JumpAttack(this), dead: new Dead(this) }
         this.currentState = this.stateMap.walk
         this.currentState.enter()
         this.sword = new Sword(this)
+        this.lives = 3
+        this.isHit = false
     }
 
     changeState(newState: State) {
-        this.currentState = newState
-        this.currentState.enter()
+        if (this.currentState instanceof Dead === false && newState !== this.currentState) {
+            this.currentState = newState
+            this.currentState.enter()
+            this.currentFrameIndex = 0
+        }
     }
 
     update(input: InputType[]) {
@@ -64,8 +71,17 @@ export default class Player {
 
     draw(context: CanvasRenderingContext2D) {
         // Draw the current sprite image
-        if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
+        if (this.game.debug && (this.currentState instanceof Attack || this.currentState instanceof JumpAttack)) {
+            context.strokeRect(this.x, this.y, this.width - 100, this.height)
+        } else if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
+
         let currentImage = this.spriteImages[Math.floor(this.currentFrameIndex)] ?? this.spriteImages[0]
+
+        if (this.isHit) {
+            let alpha = Math.abs(Math.sin(Date.now() / 200))
+            context.globalAlpha = alpha
+        }
+
         context.drawImage(
             currentImage,
             this.x,
@@ -73,6 +89,9 @@ export default class Player {
             this.width,
             this.height
         );
+
+        context.globalAlpha = 1;
+
         if (this.currentState instanceof Attack || this.currentState instanceof JumpAttack) {
             this.sword.draw(context)
         }
@@ -81,13 +100,27 @@ export default class Player {
     onGround() {
         return this.y >= this.game.height - this.height - 70;
     }
+
+    getHit() {
+        this.lives = this.lives - 1
+        this.isHit = true
+        this.game.UI.hearts.pop()
+        setTimeout(() => { this.isHit = false }, 1000)
+    }
     checkCollisions() {
         this.game.enemies.forEach(enemy => {
-            if (playerCollisions(this, enemy)) {
-                console.log("dead")
+            if (playerCollisions(this, enemy) && !enemy.isDead && !this.isHit) {
+                if (this.lives <= 1) {
+                    this.game.UI.hearts.pop()
+                    this.changeState(this.stateMap.dead)
+                }
+                else {
+                    enemy.isDead = true
+                    this.getHit()
+                }
             }
-            if (swordCollisions(this.sword, enemy) && (this.currentState instanceof JumpAttack || this.currentState instanceof Attack)) {
-                enemy.markedForDeletetion = true
+            if (swordCollisions(this.sword, enemy) && !enemy.isDead && (this.currentState instanceof JumpAttack || this.currentState instanceof Attack)) {
+                enemy.isDead = true
                 this.game.score++
             }
         })

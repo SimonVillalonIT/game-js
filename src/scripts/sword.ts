@@ -19,11 +19,10 @@ export class Sword {
     }
 
     draw(context: CanvasRenderingContext2D) {
-        context.strokeStyle = "red"; // Set stroke color
-        context.lineWidth = 2; // Set line width
-
-        // Draw the sword hitbox rectangle
-        context.strokeRect(this.x, this.y, this.width, this.height);
-
+        if (this.player.game.debug) {
+            context.strokeStyle = "red"; // Set stroke color
+            context.lineWidth = 2; // Set line width
+            context.strokeRect(this.x, this.y, this.width, this.height);
+        }
     }
 }

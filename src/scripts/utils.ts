@@ -1,7 +1,7 @@
 import { InputType } from "../types/globals";
 import { FlyingEnemy, GroundEnemy } from "./enemies";
 import Player from "./player";
-import { Walk } from "./playerStates";
+import { Attack, JumpAttack, Walk } from "./playerStates";
 import { Sword } from "./sword";
 
 export async function preloadImages(obj: { [key: string]: string[] }): Promise<void> {
@@ -38,6 +38,13 @@ export function swordCollisions(sword: Sword, enemy: GroundEnemy | FlyingEnemy) 
 }
 
 export function playerCollisions(player: Player, enemy: GroundEnemy | FlyingEnemy) {
+    if ((player.currentState instanceof Attack || player.currentState instanceof JumpAttack)) {
+        return (enemy.x < player.x + player.width - 100 &&
+            enemy.x + player.width - 100 > player.x &&
+            enemy.y < player.y + player.height &&
+            enemy.y + enemy.height > player.y
+        )
+    }
     return (enemy.x < player.x + player.width &&
         enemy.x + player.width > player.x &&
         enemy.y < player.y + player.height &&
