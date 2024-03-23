@@ -19,6 +19,8 @@ export class Game {
     UI: UI
     music: HTMLAudioElement
     stop: boolean
+    pauseTimestamp: number | null
+    hitTimeout: any
     constructor(width: number, height: number) {
         this.width = width
         this.height = height
@@ -33,28 +35,32 @@ export class Game {
         this.score = 0
         this.UI = new UI(this)
         this.music = new Audio()
-        this.music.src = "/music.wav"
+        this.music.src = "/audio/music.wav"
         this.music.volume = 0.1
         this.music.loop = true
         this.stop = false
+        this.pauseTimestamp = null
+        this.hitTimeout = null
     }
     update(deltaTime: number) {
-        this.UI.update()
-        this.background.update()
-        this.player.update(this.input.keys)
-        //handle enemies
-        if (this.enemyTimer > this.enemyInterval) {
-            this.addEnemy()
-            this.enemyTimer = 0
-        } else {
-            this.enemyTimer += deltaTime
-        }
-        this.enemies.forEach(enemy => {
-            enemy.update()
-            if (enemy.markedForDeletetion) {
-                this.enemies.splice(this.enemies.indexOf(enemy), 1)
+        if (!this.stop) {
+            this.UI.update()
+            this.background.update()
+            this.player.update(this.input.keys)
+            //handle enemies
+            if (this.enemyTimer > this.enemyInterval) {
+                this.addEnemy()
+                this.enemyTimer = 0
+            } else {
+                this.enemyTimer += deltaTime
             }
-        })
+            this.enemies.forEach(enemy => {
+                enemy.update()
+                if (enemy.markedForDeletetion) {
+                    this.enemies.splice(this.enemies.indexOf(enemy), 1)
+                }
+            })
+        }
     }
     draw(context: CanvasRenderingContext2D) {
         this.playMusic()
@@ -75,5 +81,22 @@ export class Game {
     stopAll() {
         this.enemies.forEach(enemy => { enemy.stop = true })
     }
+    pause() {
+        this.pauseTimestamp = new Date().getTime()
+        clearTimeout(this.hitTimeout); // Clear the existing timeout
+        this.stop = true
+    }
+    resume() {
+        if (this.pauseTimestamp) {
+            console.log(this.player.isHitDuration - (this.pauseTimestamp - (this.player.getHitTimestamp as number)))
+            const remainingTime = this.player.isHitDuration - (this.pauseTimestamp - (this.player.getHitTimestamp as number)); // Calculate remaining time
+            this.hitTimeout = setTimeout(() => {
+                this.player.isHit = false;
+            }, remainingTime); // Start a new timeout with remaining time
+            this.pauseTimestamp = null; // Reset the pause timestamp
+        }
+        this.stop = false
+    }
+
 }
 

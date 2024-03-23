@@ -46,7 +46,7 @@ export function playerCollisions(player: Player, enemy: GroundEnemy | FlyingEnem
         )
     }
     return (enemy.x < player.x + player.width &&
-        enemy.x + player.width > player.x &&
+        enemy.x + (player.width - 70)  > (player.x + 60) &&
         enemy.y < player.y + player.height &&
         enemy.y + enemy.height > player.y
     )

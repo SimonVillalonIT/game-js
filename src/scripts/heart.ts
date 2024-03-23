@@ -14,11 +14,11 @@ export class Heart {
         this.width = 50
         this.height = 60
         this.position = position
-        this.x = position * 20
+        this.x = position * 20 * 2.7 - 30
         this.y = 100
         this.spriteImages = HEART_URLS.map(loadStateImages)
         this.currentFrameIndex = 0
-        this.animationSpeed = 0.07
+        this.animationSpeed = 0.04
     }
 
     update() {

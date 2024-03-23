@@ -23,6 +23,8 @@ export default class Player {
     sword: Sword
     lives: number
     isHit: boolean
+    isHitDuration: number
+    getHitTimestamp: number | null
     constructor(game: Game) {
         this.game = game
         this.width = 200
@@ -43,6 +45,8 @@ export default class Player {
         this.sword = new Sword(this)
         this.lives = 3
         this.isHit = false
+        this.isHitDuration = 1000
+        this.getHitTimestamp = null
     }
 
     changeState(newState: State) {
@@ -70,14 +74,13 @@ export default class Player {
     }
 
     draw(context: CanvasRenderingContext2D) {
-        // Draw the current sprite image
         if (this.game.debug && (this.currentState instanceof Attack || this.currentState instanceof JumpAttack)) {
             context.strokeRect(this.x, this.y, this.width - 100, this.height)
-        } else if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
+        } else if (this.game.debug) context.strokeRect(this.x + 60, this.y, this.width - 70, this.height)
 
         let currentImage = this.spriteImages[Math.floor(this.currentFrameIndex)] ?? this.spriteImages[0]
 
-        if (this.isHit) {
+        if (this.isHit && !this.game.stop) {
             let alpha = Math.abs(Math.sin(Date.now() / 200))
             context.globalAlpha = alpha
         }
@@ -89,6 +92,7 @@ export default class Player {
             this.width,
             this.height
         );
+
 
         context.globalAlpha = 1;
 
@@ -102,11 +106,17 @@ export default class Player {
     }
 
     getHit() {
-        this.lives = this.lives - 1
-        this.isHit = true
-        this.game.UI.hearts.pop()
-        setTimeout(() => { this.isHit = false }, 1000)
+        this.getHitTimestamp = new Date().getTime()
+        this.lives = this.lives - 1;
+        this.isHit = true;
+        this.game.UI.hearts.pop();
+        if (!this.game.stop) { // Only set timeout if the game is not paused
+            this.game.hitTimeout = setTimeout(() => {
+                this.isHit = false;
+            }, this.isHitDuration);
+        }
     }
+
     checkCollisions() {
         this.game.enemies.forEach(enemy => {
             if (playerCollisions(this, enemy) && !enemy.isDead && !this.isHit) {

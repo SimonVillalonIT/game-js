@@ -11,9 +11,9 @@ export abstract class State {
     constructor(player: Player) {
         this.player = player
         this.sound = new Audio()
-        this.sound.src = "/attack.wav"
+        this.sound.src = "/audio/attack.wav"
         this.deathSound = new Audio()
-        this.deathSound.src = "/death-sound.wav"
+        this.deathSound.src = "/audio/death-sound.wav"
     }
     abstract enter(): void
     abstract update(): void

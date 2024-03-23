@@ -32,7 +32,7 @@ class Enemy {
         this.markedForDeletetion = false
         this.stop = false
         this.hitSound = new Audio()
-        this.hitSound.src = "/hit.wav"
+        this.hitSound.src = "/audio/hit.wav"
     }
     update() {
         if (this.isDead) {
