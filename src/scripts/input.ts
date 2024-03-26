@@ -1,4 +1,5 @@
 import { InputType } from "../types/globals";
+import { GAME_STATES } from "./constants";
 import { Game } from "./game";
 
 class InputHandler {
@@ -32,7 +33,7 @@ class InputHandler {
             } else if (e.key === "d") {
                 this.game.debug = !this.game.debug
             } else if (e.key === "Escape") {
-                this.game.stop ? this.game.resume() : this.game.pause()
+                this.game.state === GAME_STATES.stopped ? this.game.resume() : this.game.pause()
             }
         });
 

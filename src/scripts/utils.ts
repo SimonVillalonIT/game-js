@@ -46,7 +46,7 @@ export function playerCollisions(player: Player, enemy: GroundEnemy | FlyingEnem
         )
     }
     return (enemy.x < player.x + player.width &&
-        enemy.x + (player.width - 70)  > (player.x + 60) &&
+        enemy.x + (player.width - 70) > (player.x + 60) &&
         enemy.y < player.y + player.height &&
         enemy.y + enemy.height > player.y
     )
@@ -90,4 +90,12 @@ export function movementLogic(player: Player, input: InputType[]) {
             player.weight = 1;
         }
     }
+}
+
+export function fromMsToMMSS(n: number) {
+    const totalSeconds = Math.floor(n / 1000)
+    const minutes = totalSeconds / 60 < 1 ? 0 : Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+    const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return formattedTime
 }

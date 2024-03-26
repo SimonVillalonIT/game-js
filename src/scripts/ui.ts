@@ -8,8 +8,8 @@ export class UI {
     hearts: Heart[]
     constructor(game: Game) {
         this.game = game
-        this.fontSize = 30
-        this.fontFamily = "Helvetica"
+        this.fontSize = 60
+        this.fontFamily = "KnightWarrior"
         this.hearts = [new Heart(1), new Heart(2), new Heart(3)]
     }
 
@@ -22,9 +22,9 @@ export class UI {
     draw(context: CanvasRenderingContext2D) {
         context.font = this.fontSize + "px " + this.fontFamily
         context.textAlign = "left"
-        context.fillStyle = "black"
+        context.fillStyle = "white"
         // score
-        context.fillText(`Score: ${this.game.score}`, 20, 50)
+        context.fillText(`Score: ${this.game.score}`, 20, 70)
         this.hearts.forEach(heart => {
             heart.draw(context)
         })

@@ -1,16 +1,25 @@
+import "./instructions.ts"
+import { startGame } from "./start.ts"
+import { Dead } from "./playerStates.ts"
 import { Game } from "./game.ts"
+import { displayGameOver } from "./game-over.ts"
 import { preloadImages } from "./utils.ts"
-import { SPRITE_URLS, FLYING_ENEMIES_URLS, GROUND_ENEMY_URLS } from "./constants.ts"
-
+import { FLYING_ENEMIES_URLS, GROUND_ENEMY_URLS, SPRITE_URLS } from "./constants.ts"
+import { renderPause } from "./pause.ts"
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
-const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 canvas.width = 1920
 canvas.height = 1080
+
+const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+
 preloadImages(SPRITE_URLS);
 preloadImages(FLYING_ENEMIES_URLS);
 preloadImages(GROUND_ENEMY_URLS);
+
 const game = new Game(canvas.width, canvas.height)
+
+startGame(game)
 
 let lastTime = performance.now()
 
@@ -18,9 +27,17 @@ function animate() {
     const currentTime = performance.now()
     const deltaTime = currentTime - lastTime
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    if (!game.stop) {
+
+    if (game.player.currentState instanceof Dead) {
+        displayGameOver(game)
+    }
+
+    if (game.isRunning()) {
         game.update(deltaTime)
     }
+
+    renderPause(game);
+
     game.draw(ctx)
     lastTime = currentTime
 

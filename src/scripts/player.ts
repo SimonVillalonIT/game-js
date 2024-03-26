@@ -22,6 +22,7 @@ export default class Player {
     stateMap: StateObject
     sword: Sword
     lives: number
+    hitSound: HTMLAudioElement
     isHit: boolean
     isHitDuration: number
     getHitTimestamp: number | null
@@ -47,6 +48,8 @@ export default class Player {
         this.isHit = false
         this.isHitDuration = 1000
         this.getHitTimestamp = null
+        this.hitSound = new Audio()
+        this.hitSound.src = "/audio/hurt.mp3"
     }
 
     changeState(newState: State) {
@@ -80,7 +83,7 @@ export default class Player {
 
         let currentImage = this.spriteImages[Math.floor(this.currentFrameIndex)] ?? this.spriteImages[0]
 
-        if (this.isHit && !this.game.stop) {
+        if (this.isHit && this.game.isRunning()) {
             let alpha = Math.abs(Math.sin(Date.now() / 200))
             context.globalAlpha = alpha
         }
@@ -92,7 +95,6 @@ export default class Player {
             this.width,
             this.height
         );
-
 
         context.globalAlpha = 1;
 
@@ -106,11 +108,12 @@ export default class Player {
     }
 
     getHit() {
+        this.hitSound.play()
         this.getHitTimestamp = new Date().getTime()
         this.lives = this.lives - 1;
         this.isHit = true;
         this.game.UI.hearts.pop();
-        if (!this.game.stop) { // Only set timeout if the game is not paused
+        if (this.game.isRunning()) { // Only set timeout if the game is not paused
             this.game.hitTimeout = setTimeout(() => {
                 this.isHit = false;
             }, this.isHitDuration);

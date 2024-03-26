@@ -136,9 +136,6 @@ export class Dead extends State {
         }
         this.player.speed = 0
         this.player.game.speed = 0
-        this.player.game.stopAll()
-        setTimeout(() => {
-            this.player.game.stop = true
-        }, 2000)
+        this.player.game.gameOver()
     }
 }

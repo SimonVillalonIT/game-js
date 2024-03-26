@@ -3,8 +3,12 @@ import InputHandler from "./input.ts"
 import { Background } from "./background.ts"
 import { FlyingEnemy, GroundEnemy } from "./enemies.ts"
 import { UI } from "./ui.ts"
+import { GAME_STATES } from "./constants.ts"
+
+const { notStarted, playing, stopped, gameOver } = GAME_STATES
 
 export class Game {
+    state: number
     width: number
     height: number
     speed: number
@@ -18,10 +22,12 @@ export class Game {
     score: number
     UI: UI
     music: HTMLAudioElement
-    stop: boolean
     pauseTimestamp: number | null
     hitTimeout: any
+    startTime: number
+    endTime: number | null
     constructor(width: number, height: number) {
+        this.state = GAME_STATES.notStarted
         this.width = width
         this.height = height
         this.speed = 3
@@ -38,12 +44,13 @@ export class Game {
         this.music.src = "/audio/music.wav"
         this.music.volume = 0.1
         this.music.loop = true
-        this.stop = false
         this.pauseTimestamp = null
         this.hitTimeout = null
+        this.startTime = Date.now()
+        this.endTime = null
     }
     update(deltaTime: number) {
-        if (!this.stop) {
+        if (this.isRunning()) {
             this.UI.update()
             this.background.update()
             this.player.update(this.input.keys)
@@ -78,24 +85,41 @@ export class Game {
     playMusic() {
         this.music.play()
     }
-    stopAll() {
+    stopEnemies() {
         this.enemies.forEach(enemy => { enemy.stop = true })
     }
+    isRunning() {
+        if (this.state === stopped || this.state === notStarted || this.state === gameOver) {
+            return false
+        }
+        if (this.state === playing) return true
+    }
+    start() {
+        this.state = playing
+    }
     pause() {
+        this.endTime = Date.now()
         this.pauseTimestamp = new Date().getTime()
         clearTimeout(this.hitTimeout); // Clear the existing timeout
-        this.stop = true
+        this.state = stopped
     }
     resume() {
         if (this.pauseTimestamp) {
-            console.log(this.player.isHitDuration - (this.pauseTimestamp - (this.player.getHitTimestamp as number)))
             const remainingTime = this.player.isHitDuration - (this.pauseTimestamp - (this.player.getHitTimestamp as number)); // Calculate remaining time
             this.hitTimeout = setTimeout(() => {
                 this.player.isHit = false;
             }, remainingTime); // Start a new timeout with remaining time
             this.pauseTimestamp = null; // Reset the pause timestamp
         }
-        this.stop = false
+        this.state = playing
+    }
+    gameOver() {
+        this.endTime = Date.now()
+        this.stopEnemies()
+        setTimeout(() => {
+            this.player.game.state = gameOver
+        }, 2000)
+
     }
 
 }

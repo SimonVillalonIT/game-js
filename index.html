@@ -11,14 +11,35 @@
 </head>
 
 <body class="m-0 p-0 box-border">
-    <main id="app" class="flex flex-col justify-center items-center">
-        <canvas id="canvas"
-            class="border-4 border-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-full max-h-full"></canvas>
-        <img id="player" src="public/character.png" class="hidden"></img>
-        <img class="hidden" src="public/backgrounds/neo/road&lamps.png" alt="" id="layer1">
-        <img class="hidden" src="public/backgrounds/neo/houded2.png" alt="" id="layer2">
-        <img class="hidden" src="public/backgrounds/neo/sky.png" alt="" id="layer3">
-        <img class="hidden" src="public/backgrounds/neo/back.png" alt="" id="layer4">
+    <main id="app" class="relative flex flex-col justify-center items-center h-screen w-full">
+        <section id="start"
+            class="flex flex-col items-center justify-center w-full h-full absolute z-50 bg-[url('/Sprinkle.svg')] text-white">
+            <article id="instructions"
+                class="bg-transparent backdrop-blur py-4 rounded-xl border border-white/5 grid grid-cols-3 gap-y-4">
+                <h3 class="font-bold  text-5xl font-KnightWarrior col-span-3 justify-self-center">Instructions</h3>
+            </article>
+            <button id="startButton"
+                class="border border-[#1C538E] hover:bg-[#1C538E] duration-300 backdrop-blur mt-12 p-4 text-bold text-2xl font-KnightWarrior rounded-md">Start
+                game</button>
+        </section>
+        <article
+            class="z-20 hidden flex-col items-center text-white font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
+            id="gameOver">
+            <h3 class="text-6xl">GAME OVER</h3>
+            <div class="flex justify-between my-4 w-full items-center">
+                <p class="text-2xl">Duration: </p><span class="text-2xl" id="time"></span>
+            </div>
+            <div class="flex justify-between items-center w-full">
+                <p class="text-2xl">Score: </p><span class="text-2xl" id="score"></span>
+            </div>
+            <button id="restart"
+                class="text-xl border-2 w-fit mt-6 py-1 px-3 hover:text-black hover:bg-white duration-200">Restart</button>
+        </article>
+        <canvas id="canvas" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"></canvas>
+        <img class="hidden" src="backgrounds/neo/road&lamps.png" alt="" id="layer1">
+        <img class="hidden" src="backgrounds/neo/houded2.png" alt="" id="layer2">
+        <img class="hidden" src="backgrounds/neo/sky.png" alt="" id="layer3">
+        <img class="hidden" src="backgrounds/neo/back.png" alt="" id="layer4">
     </main>
 </body>
 

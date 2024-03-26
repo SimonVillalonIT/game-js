@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "KnightWarrior";
+    src: url("/font/KnightWarrior.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

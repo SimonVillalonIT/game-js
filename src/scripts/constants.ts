@@ -20,3 +20,7 @@ export const FLYING_ENEMIES_URLS = {
 }
 
 export const HEART_URLS = ["/heart/1.png", "/heart/2.png", "/heart/3.png", "/heart/5.png"]
+
+export const KEYS_URLS = [{ img: "/keys/Up.svg", p: "Jump" }, { img: "/keys/Left.svg", p: "Go left" }, { img: "/keys/Right.svg", p: "Go right" }, { img: "/keys/Down.svg", p: "Go down" }, { img: "/keys/Space.svg", p: "Attack" }, { img: "/keys/Esc.svg", p: "Pause" }]
+
+export const GAME_STATES = { notStarted: 0, playing: 1, stopped: 2, gameOver: 3 }
