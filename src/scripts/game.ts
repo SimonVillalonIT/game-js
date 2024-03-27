@@ -4,6 +4,7 @@ import { Background } from "./background.ts"
 import { FlyingEnemy, GroundEnemy } from "./enemies.ts"
 import { UI } from "./ui.ts"
 import { GAME_STATES } from "./constants.ts"
+import { Display } from "./display.ts"
 
 const { notStarted, playing, stopped, gameOver } = GAME_STATES
 
@@ -21,11 +22,13 @@ export class Game {
     debug: boolean
     score: number
     UI: UI
+    sound: { music: boolean, effects: boolean }
     music: HTMLAudioElement
     pauseTimestamp: number | null
     hitTimeout: any
     startTime: number
     endTime: number | null
+    display: Display
     constructor(width: number, height: number) {
         this.state = GAME_STATES.notStarted
         this.width = width
@@ -40,6 +43,7 @@ export class Game {
         this.debug = false
         this.score = 0
         this.UI = new UI(this)
+        this.sound = { music: false, effects: false }
         this.music = new Audio()
         this.music.src = "/audio/music.wav"
         this.music.volume = 0.1
@@ -48,6 +52,7 @@ export class Game {
         this.hitTimeout = null
         this.startTime = Date.now()
         this.endTime = null
+        this.display = new Display(this)
     }
     update(deltaTime: number) {
         if (this.isRunning()) {
@@ -83,7 +88,7 @@ export class Game {
         this.enemies.push(condition === 0 ? new FlyingEnemy(this) : new GroundEnemy(this))
     }
     playMusic() {
-        this.music.play()
+        if (this.sound.music) this.music.play()
     }
     stopEnemies() {
         this.enemies.forEach(enemy => { enemy.stop = true })
@@ -98,12 +103,14 @@ export class Game {
         this.state = playing
     }
     pause() {
+        this.display.pauseGame()
         this.endTime = Date.now()
         this.pauseTimestamp = new Date().getTime()
         clearTimeout(this.hitTimeout); // Clear the existing timeout
         this.state = stopped
     }
     resume() {
+        this.display.resume()
         if (this.pauseTimestamp) {
             const remainingTime = this.player.isHitDuration - (this.pauseTimestamp - (this.player.getHitTimestamp as number)); // Calculate remaining time
             this.hitTimeout = setTimeout(() => {
@@ -114,6 +121,7 @@ export class Game {
         this.state = playing
     }
     gameOver() {
+        this.display.gameOver()
         this.endTime = Date.now()
         this.stopEnemies()
         setTimeout(() => {

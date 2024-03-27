@@ -24,7 +24,6 @@ export abstract class State {
 
 export class Walk extends State {
     enter() {
-        this.sound.loop = false
         this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
@@ -37,7 +36,6 @@ export class Walk extends State {
 
 export class Run extends State {
     enter() {
-        this.sound.loop = false
         this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
@@ -50,7 +48,6 @@ export class Run extends State {
 
 export class Idle extends State {
     enter() {
-        this.sound.loop = false
         this.sound.pause()
         this.player.animationSpeed = 0.07
         this.player.width = 200
@@ -63,7 +60,6 @@ export class Idle extends State {
 
 export class Jump extends State {
     enter() {
-        this.sound.loop = false
         this.sound.pause()
         this.player.animationSpeed = 0.1
         this.player.width = 200
@@ -88,8 +84,7 @@ export class Jump extends State {
 
 export class Attack extends State {
     enter() {
-        this.sound.loop = false
-        this.sound.play()
+        if (this.player.game.sound.effects) this.sound.play()
         this.player.animationSpeed = 0.15
         this.player.width = 300
         this.player.spriteImages = SPRITE_URLS.attack2.map(loadStateImages)
@@ -106,7 +101,7 @@ export class JumpAttack extends State {
     }
     update() {
 
-        this.sound.play()
+        if (this.player.game.sound.effects) this.sound.play()
         // Apply gravity
         this.player.vy += this.player.weight;
 
@@ -125,7 +120,7 @@ export class JumpAttack extends State {
 export class Dead extends State {
     enter() {
         this.player.game.music.volume = 0
-        this.deathSound.play()
+        if (this.player.game.sound.effects) this.deathSound.play()
         this.player.spriteImages = SPRITE_URLS.dead.map(loadStateImages)
         this.player.animationSpeed = 0.02
     }

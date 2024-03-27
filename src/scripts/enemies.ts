@@ -36,7 +36,7 @@ class Enemy {
     }
     update() {
         if (this.isDead) {
-            this.hitSound.play()
+            if (this.game.sound.effects) this.hitSound.play()
             setTimeout(() => {
                 this.markedForDeletetion = true
             }, 500)

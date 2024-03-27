@@ -23,14 +23,27 @@
                 game</button>
         </section>
         <article
-            class="z-20 hidden flex-col items-center text-white font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
-            id="gameOver">
-            <h3 class="text-6xl">GAME OVER</h3>
+            class="z-20 hidden flex-col items-center text-white min-w-96 font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
+            id="pause">
+            <h3 class="text-6xl">Pause</h3>
             <div class="flex justify-between my-4 w-full items-center">
-                <p class="text-2xl">Duration: </p><span class="text-2xl" id="time"></span>
+                <p class="text-2xl">Duration: </p><span class="text-2xl" id="pause-time"></span>
             </div>
             <div class="flex justify-between items-center w-full">
-                <p class="text-2xl">Score: </p><span class="text-2xl" id="score"></span>
+                <p class="text-2xl">Score: </p><span class="text-2xl" id="pause-score">$</span>
+            </div>
+            <button id="resume"
+                class="text-xl border-2 w-fit mt-6 py-1 px-3 hover:text-black hover:bg-white duration-200">Resume</button>
+        </article>
+        <article
+            class="z-20 hidden flex-col items-center text-white font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
+            id="gameOver">
+            <h3 class="text-6xl">Game Over</h3>
+            <div class="flex justify-between my-4 w-full items-center">
+                <p class="text-2xl">Duration: </p><span class="text-2xl" id="gameOver-time"></span>
+            </div>
+            <div class="flex justify-between items-center w-full">
+                <p class="text-2xl">Score: </p><span class="text-2xl" id="gameOver-score"></span>
             </div>
             <button id="restart"
                 class="text-xl border-2 w-fit mt-6 py-1 px-3 hover:text-black hover:bg-white duration-200">Restart</button>

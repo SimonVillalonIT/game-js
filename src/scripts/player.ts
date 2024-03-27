@@ -108,7 +108,7 @@ export default class Player {
     }
 
     getHit() {
-        this.hitSound.play()
+        if (this.game.sound.effects) this.hitSound.play()
         this.getHitTimestamp = new Date().getTime()
         this.lives = this.lives - 1;
         this.isHit = true;
