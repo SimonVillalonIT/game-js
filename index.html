@@ -1,71 +1,124 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/icon.png" />
     <link href="./src/styles/main.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blossom Blade</title>
     <script type="module" src="/src/scripts/main.ts" defer></script>
-</head>
+  </head>
 
-<body class="m-0 p-0 box-border">
-    <main id="app" class="relative flex flex-col justify-center items-center h-screen w-full">
-        <div id="musicButton" data-state="on"
-            class="opacity-75 backdrop-blur bg-transparent duration-100  hover:opacity-100 absolute top-8 right-8 z-50 border border-white rounded-md hover:cursor-pointer p-2"
-            title="Music">
-            <img class="w-full" src="/music.svg" alt="Sound Controller">
-            <img class="w-full hidden" src="/music-off.svg" alt="Sound Controller">
-        </div>
-        <div id="soundButton" data-state="on"
-            class="absolute backdrop-blur bg-transparent opacity-75 duration-100 hover:opacity-100 top-8 right-20 z-50 border border-white rounded-md hover:cursor-pointer p-2 mr-1"
-            title="Sounds">
-            <img class="w-full" src="/sound.svg" alt="Sound Controller">
-            <img class="w-full hidden" src="/sound-off.svg" alt="Sound Controller">
-        </div>
-        <section id="start"
-            class="flex flex-col items-center justify-center w-full h-full absolute z-40 bg-[url('/Sprinkle.svg')] text-white">
-            <article id="instructions"
-                class="bg-transparent backdrop-blur py-4 rounded-xl border border-white/5 grid grid-cols-3 gap-y-4 min-w-[600px]">
-                <h3 class="font-bold  text-5xl font-KnightWarrior col-span-3 justify-self-center">Instructions</h3>
-            </article>
-            <button id="startButton"
-                class="border border-[#1C538E] hover:bg-[#1C538E] duration-300 backdrop-blur mt-12 p-4 text-bold text-2xl font-KnightWarrior rounded-md">Start
-                game</button>
-        </section>
+  <body class="m-0 box-border p-0">
+    <main
+      id="app"
+      class="relative flex h-screen w-full flex-col items-center justify-center"
+    >
+      <div
+        id="musicButton"
+        data-state="on"
+        class="absolute right-8 top-8 z-50 rounded-md border border-white bg-transparent p-2 opacity-75 backdrop-blur duration-100 hover:cursor-pointer hover:opacity-100"
+        title="Music"
+      >
+        <img class="w-full" src="/music.svg" alt="Sound Controller" />
+        <img
+          class="hidden w-full"
+          src="/music-off.svg"
+          alt="Sound Controller"
+        />
+      </div>
+      <div
+        id="soundButton"
+        data-state="on"
+        class="absolute right-20 top-8 z-50 mr-1 rounded-md border border-white bg-transparent p-2 opacity-75 backdrop-blur duration-100 hover:cursor-pointer hover:opacity-100"
+        title="Sounds"
+      >
+        <img class="w-full" src="/sound.svg" alt="Sound Controller" />
+        <img
+          class="hidden w-full"
+          src="/sound-off.svg"
+          alt="Sound Controller"
+        />
+      </div>
+      <section
+        id="start"
+        class="absolute z-40 flex h-full w-full flex-col items-center justify-center bg-[url('/Sprinkle.svg')] text-white"
+      >
         <article
-            class="z-20 hidden flex-col items-center text-white min-w-96 font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
-            id="pause">
-            <h3 class="text-6xl">Pause</h3>
-            <div class="flex justify-between my-4 w-full items-center">
-                <p class="text-2xl">Duration: </p><span class="text-2xl" id="pause-time"></span>
-            </div>
-            <div class="flex justify-between items-center w-full">
-                <p class="text-2xl">Score: </p><span class="text-2xl" id="pause-score">$</span>
-            </div>
-            <button id="resume"
-                class="text-xl border-2 w-fit mt-6 py-1 px-3 hover:text-black hover:bg-white duration-200">Resume</button>
+          id="instructions"
+          class="grid min-w-[600px] grid-cols-3 gap-y-4 rounded-xl border border-white/5 bg-transparent py-4 backdrop-blur"
+        >
+          <h3
+            class="col-span-3 justify-self-center font-KnightWarrior text-5xl font-bold"
+          >
+            Instructions
+          </h3>
         </article>
-        <article
-            class="z-20 hidden flex-col items-center text-white font-KnightWarrior relative bg-black/90 rounded-xl px-12 py-8 backdrop-blur animate-fade animate-once animate-duration-1000"
-            id="gameOver">
-            <h3 class="text-6xl">Game Over</h3>
-            <div class="flex justify-between my-4 w-full items-center">
-                <p class="text-2xl">Duration: </p><span class="text-2xl" id="gameOver-time"></span>
-            </div>
-            <div class="flex justify-between items-center w-full">
-                <p class="text-2xl">Score: </p><span class="text-2xl" id="gameOver-score"></span>
-            </div>
-            <button id="restart"
-                class="text-xl border-2 w-fit mt-6 py-1 px-3 hover:text-black hover:bg-white duration-200">Restart</button>
-        </article>
-        <canvas id="canvas" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full"></canvas>
-        <img class="hidden" src="backgrounds/neo/road&lamps.png" alt="" id="layer1">
-        <img class="hidden" src="backgrounds/neo/houded2.png" alt="" id="layer2">
-        <img class="hidden" src="backgrounds/neo/sky.png" alt="" id="layer3">
-        <img class="hidden" src="backgrounds/neo/back.png" alt="" id="layer4">
+        <button
+          id="startButton"
+          class="text-bold mt-12 rounded-md border border-[#1C538E] p-4 font-KnightWarrior text-2xl backdrop-blur duration-300 hover:bg-[#1C538E]"
+        >
+          Start game
+        </button>
+      </section>
+      <article
+        class="relative z-20 hidden min-w-96 animate-fade flex-col items-center rounded-xl bg-black/90 px-12 py-8 font-KnightWarrior text-white backdrop-blur animate-duration-1000 animate-once"
+        id="pause"
+      >
+        <h3 class="text-6xl">Pause</h3>
+        <div class="my-4 flex w-full items-center justify-between">
+          <p class="text-2xl">Duration:</p>
+          <span class="text-2xl" id="pause-time"></span>
+        </div>
+        <div class="flex w-full items-center justify-between">
+          <p class="text-2xl">Score:</p>
+          <span class="text-2xl" id="pause-score">$</span>
+        </div>
+        <button
+          id="resume"
+          class="mt-6 w-fit border-2 px-3 py-1 text-xl duration-200 hover:bg-white hover:text-black"
+        >
+          Resume
+        </button>
+      </article>
+      <article
+        class="relative z-20 hidden animate-fade flex-col items-center rounded-xl bg-black/90 px-12 py-8 font-KnightWarrior text-white backdrop-blur animate-duration-1000 animate-once"
+        id="gameOver"
+      >
+        <h3 class="text-6xl">Game Over</h3>
+        <div class="my-4 flex w-full items-center justify-between">
+          <p class="text-2xl">Duration:</p>
+          <span class="text-2xl" id="gameOver-time"></span>
+        </div>
+        <div class="flex w-full items-center justify-between">
+          <p class="text-2xl">Score:</p>
+          <span class="text-2xl" id="gameOver-score"></span>
+        </div>
+        <button
+          id="restart"
+          class="mt-6 w-fit border-2 px-3 py-1 text-xl duration-200 hover:bg-white hover:text-black"
+        >
+          Restart
+        </button>
+      </article>
+      <canvas
+        id="canvas"
+        class="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2"
+      ></canvas>
+      <img
+        class="hidden"
+        src="backgrounds/neo/road&lamps.png"
+        alt=""
+        id="layer1"
+      />
+      <img
+        class="hidden"
+        src="backgrounds/neo/houded2.png"
+        alt=""
+        id="layer2"
+      />
+      <img class="hidden" src="backgrounds/neo/sky.png" alt="" id="layer3" />
+      <img class="hidden" src="backgrounds/neo/back.png" alt="" id="layer4" />
     </main>
-</body>
-
+  </body>
 </html>
