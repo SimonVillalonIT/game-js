@@ -123,14 +123,15 @@ export class Dead extends State {
         if (this.player.game.sound.effects) this.deathSound.play()
         this.player.spriteImages = SPRITE_URLS.dead.map(loadStateImages)
         this.player.animationSpeed = 0.02
+        this.player.speed = 0
+        this.player.game.speed = 0
+        this.player.game.gameOver()
+        setTimeout(() => { this.player.stop() }, 2000)
     }
     update() {
         if (!this.player.onGround()) {
             this.player.vy += this.player.weight;
             this.player.y += this.player.vy;
         }
-        this.player.speed = 0
-        this.player.game.speed = 0
-        this.player.game.gameOver()
     }
 }

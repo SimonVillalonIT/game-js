@@ -23,9 +23,7 @@ function animate() {
     const deltaTime = currentTime - lastTime
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    if (game.isRunning()) {
-        game.update(deltaTime)
-    }
+    game.update(deltaTime)
 
     game.draw(ctx)
     lastTime = currentTime

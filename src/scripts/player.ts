@@ -26,6 +26,7 @@ export default class Player {
     isHit: boolean
     isHitDuration: number
     getHitTimestamp: number | null
+    playerStopped: boolean
     constructor(game: Game) {
         this.game = game
         this.width = 200
@@ -50,6 +51,7 @@ export default class Player {
         this.getHitTimestamp = null
         this.hitSound = new Audio()
         this.hitSound.src = "/audio/hurt.mp3"
+        this.playerStopped = false
     }
 
     changeState(newState: State) {
@@ -61,6 +63,7 @@ export default class Player {
     }
 
     update(input: InputType[]) {
+        if (this.playerStopped) return
         this.checkCollisions()
         this.sword.update()
         this.currentFrameIndex = (this.currentFrameIndex + this.animationSpeed) % this.spriteImages.length;
@@ -137,6 +140,12 @@ export default class Player {
                 this.game.score++
             }
         })
+    }
+    stop() {
+        this.playerStopped = true
+    }
+    resume() {
+        this.playerStopped = false
     }
 }
 

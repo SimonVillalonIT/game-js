@@ -93,7 +93,9 @@ export function movementLogic(player: Player, input: InputType[]) {
 }
 
 export function fromMsToMMSS(n: number) {
+    console.log(n)
     const totalSeconds = Math.floor(n / 1000)
+    console.log(totalSeconds)
     const minutes = totalSeconds / 60 < 1 ? 0 : Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60
     const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;

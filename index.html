@@ -12,10 +12,22 @@
 
 <body class="m-0 p-0 box-border">
     <main id="app" class="relative flex flex-col justify-center items-center h-screen w-full">
+        <div id="musicButton" data-state="on"
+            class="opacity-75 backdrop-blur bg-transparent duration-100  hover:opacity-100 absolute top-8 right-8 z-50 border border-white rounded-md hover:cursor-pointer p-2"
+            title="Music">
+            <img class="w-full" src="/music.svg" alt="Sound Controller">
+            <img class="w-full hidden" src="/music-off.svg" alt="Sound Controller">
+        </div>
+        <div id="soundButton" data-state="on"
+            class="absolute backdrop-blur bg-transparent opacity-75 duration-100 hover:opacity-100 top-8 right-20 z-50 border border-white rounded-md hover:cursor-pointer p-2 mr-1"
+            title="Sounds">
+            <img class="w-full" src="/sound.svg" alt="Sound Controller">
+            <img class="w-full hidden" src="/sound-off.svg" alt="Sound Controller">
+        </div>
         <section id="start"
-            class="flex flex-col items-center justify-center w-full h-full absolute z-50 bg-[url('/Sprinkle.svg')] text-white">
+            class="flex flex-col items-center justify-center w-full h-full absolute z-40 bg-[url('/Sprinkle.svg')] text-white">
             <article id="instructions"
-                class="bg-transparent backdrop-blur py-4 rounded-xl border border-white/5 grid grid-cols-3 gap-y-4">
+                class="bg-transparent backdrop-blur py-4 rounded-xl border border-white/5 grid grid-cols-3 gap-y-4 min-w-[600px]">
                 <h3 class="font-bold  text-5xl font-KnightWarrior col-span-3 justify-self-center">Instructions</h3>
             </article>
             <button id="startButton"
