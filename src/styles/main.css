@@ -3,47 +3,46 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "KnightWarrior";
-    src: url("/font/KnightWarrior.otf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "KnightWarrior";
+  src: url("/font/KnightWarrior.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 #touch-controls {
-    display: none;
+  display: none;
 }
 
 #attack {
-    display: none;
+  display: none;
 }
 
 @media (any-pointer: coarse) {
-    #touch-controls {
-        display: grid;
-    }
+  #touch-controls {
+    display: grid;
+  }
 
-    #attack {
-        display: flex
-    }
-
+  #attack {
+    display: flex;
+  }
 }
 
 @media (orientation: landscape) {
-    #app {
-        display: flex;
-    }
+  #app {
+    display: flex;
+  }
 
-    #mobile {
-        display: none;
-    }
+  #mobile {
+    display: none;
+  }
 }
 
 @media (orientation: portrait) {
-    #app {
-        display: none;
-    }
+  #app {
+    display: none;
+  }
 
-    #mobile {
-        display: flex;
-    }
+  #mobile {
+    display: flex;
+  }
 }
