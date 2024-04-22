@@ -5,9 +5,8 @@ KEYS_URLS.forEach(({ img, p }) => {
   keycapDiv.className = "flex flex-col items-center justify-between";
 
   const imgElement = document.createElement("img");
-  imgElement.className = "w-24";
   imgElement.src = img;
-  imgElement.alt = "Esc Key";
+  imgElement.alt = p;
 
   const pElement = document.createElement("p");
   pElement.className = "font-bold text-xl";

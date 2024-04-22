@@ -8,3 +8,41 @@
   font-weight: normal;
   font-style: normal;
 }
+
+#touch-controls {
+  display: none;
+}
+
+#attack {
+  display: none;
+}
+
+@media (any-pointer: coarse) {
+  #touch-controls {
+    display: grid;
+  }
+
+  #attack {
+    display: flex;
+  }
+}
+
+@media (orientation: landscape) {
+  #app {
+    display: flex;
+  }
+
+  #mobile {
+    display: none;
+  }
+}
+
+@media (orientation: portrait) {
+  #app {
+    display: none;
+  }
+
+  #mobile {
+    display: flex;
+  }
+}
