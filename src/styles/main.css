@@ -13,7 +13,7 @@
   display: none;
 }
 
-#attack {
+.attack-container {
   display: none;
 }
 
@@ -22,7 +22,7 @@
     display: grid;
   }
 
-  #attack {
+  .attack-container {
     display: flex;
   }
 }
