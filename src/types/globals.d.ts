@@ -9,6 +9,12 @@ type StateType =
   | "jumpAttack"
   | "dead";
 
-type InputType = "ArrowDown" | "ArrowUp" | "ArrowLeft" | "ArrowRight" | " " | "Escape";
+type InputType =
+  | "ArrowDown"
+  | "ArrowUp"
+  | "ArrowLeft"
+  | "ArrowRight"
+  | " "
+  | "Escape";
 
 type StateObject = { [key in StateType]: State };
