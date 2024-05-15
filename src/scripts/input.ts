@@ -35,7 +35,6 @@ class InputHandler {
     });
     window.addEventListener("touchend", (e) => {
       const element = e.target as HTMLElement;
-      console.log(element.id);
       if (element.id === "attack") {
         this.spaceKeyDown = false;
         const index = this.keys.indexOf(" ");
@@ -43,6 +42,7 @@ class InputHandler {
           this.keys.splice(index, 1);
         }
       }
+
       if (element.id === "up") {
         const index = this.keys.indexOf("ArrowUp");
         if (index !== -1) {

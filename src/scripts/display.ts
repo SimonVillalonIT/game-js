@@ -55,7 +55,6 @@ export class Display {
         this.game.music.volume = 0;
         this.musicButton.dataset.state = "off";
       } else {
-        console.log(this.game.sound);
         this.game.sound.music = true;
         this.game.music.volume = 0.1;
         this.musicButton.dataset.state = "on";

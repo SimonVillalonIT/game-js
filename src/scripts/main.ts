@@ -20,6 +20,10 @@ preloadImages(GROUND_ENEMY_URLS);
 const game = new Game(canvas.width, canvas.height);
 game.display.enter();
 
+document.getElementById("pauseButton")?.addEventListener("click", () => {
+  game.isRunning() ? game.pause() : game.resume();
+});
+
 let lastTime = performance.now();
 
 function animate() {

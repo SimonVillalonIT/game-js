@@ -17,13 +17,9 @@ export async function preloadImages(obj: {
         img.src = url;
       });
     });
-    Promise.all(loadImagePromises)
-      .then(() => {
-        console.log("Images preloaded successfully");
-      })
-      .catch((error) => {
-        console.error("Failed to preload images:", error);
-      });
+    Promise.all(loadImagePromises).catch((error) => {
+      console.error("Failed to preload images:", error);
+    });
   });
 }
 
@@ -107,9 +103,7 @@ export function movementLogic(player: Player, input: InputType[]) {
 }
 
 export function fromMsToMMSS(n: number) {
-  console.log(n);
   const totalSeconds = Math.floor(n / 1000);
-  console.log(totalSeconds);
   const minutes = totalSeconds / 60 < 1 ? 0 : Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
